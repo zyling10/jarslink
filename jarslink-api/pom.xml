@@ -167,21 +167,24 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.eluder.coveralls</groupId>
                 <artifactId>coveralls-maven-plugin</artifactId>
                 <version>4.3.0</version>
             </plugin>
+            <!--指定JDK版本和编码格式-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.0.2</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
+            <!--生产javadoc包-->
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.10.4</version>
@@ -203,6 +206,12 @@
                     </links>
                 </configuration>
             </plugin>
+            <!--
+                surefire 插件用来在maven构建生命周期的test phase执行一个应用的单元测试。它会产生两种不同形式的测试结果报告：
+                1）.纯文本
+                2）.xml文件格式的
+                mvn surefire:test或者mvn test都可以运行工程下的单元测试
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -220,11 +229,18 @@
                     </properties>
                 </configuration>
             </plugin>
+            <!--
+                1、来检测pom.xml 中使用的各个组件是否有新版本
+                mvn versions:display-dependency-updates
+                2、修改指定模块版本号
+                mvn versions:set -DgroupId=${groupId} -DartifactId=${artifact} -DoldVersion=* -DnewVersion=1.0.2-SNAPSHOT -DallowSnapshots=true
+            -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
                 <version>2.3</version>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-eclipse-plugin</artifactId>
@@ -233,6 +249,7 @@
                     <downloadSources>true</downloadSources>
                 </configuration>
             </plugin>
+            <!--maven-jar-plugin排除不想打包的目录文件内容-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -244,6 +261,13 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <!--
+            maven-source-plugin提供项目自动将源码打包并发布的功能
+            执行 mvn install，maven会自动将source install到repository 。
+            执行 mvn deploy，maven会自动将source deploy到remote-repository 。
+            执行 mvn source:jar，单独打包源码。
+            注意：在多项目构建中，将source-plugin置于顶层或parent的pom中并不会发挥作用，必须置于具体项目的pom中。
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -265,6 +289,9 @@
             </plugin>
         </plugins>
     </build>
+    <!--
+    定义snapshots快照库和releases发布库的地址
+    -->
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>

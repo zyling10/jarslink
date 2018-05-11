@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.stream.Collectors;
+//import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -102,7 +102,10 @@ public class ModuleConfig extends ToStringObject {
 
     public List<String> getModuleUrlPath() {
         List<String> moduleUrls = Lists.newArrayList();
-        moduleUrls.addAll(moduleUrl.stream().map(URL::toString).collect(Collectors.toList()));
+//        moduleUrls.addAll(moduleUrl.stream().map(URL::toString).collect(Collectors.toList()));
+        for (URL url : moduleUrl) {
+            moduleUrls.add(url.toString());
+        }
         return moduleUrls;
     }
 
